@@ -23,6 +23,6 @@ class User extends Authenticatable
     ];
 
     public function reports () {
-        $this->hasMany(Report::class);
+        return $this->belongsToMany(Report::class);
     }
 }

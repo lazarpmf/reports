@@ -15,11 +15,6 @@ class CreateReportsTable extends Migration
             $table->string('project');
             $table->mediumText('description');
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
         });
     }
 

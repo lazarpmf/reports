@@ -8,7 +8,7 @@ class Report extends Model
 {
     protected $guarded = ['id'];
 
-    public function user () {
-        $this->belongsTo(User::class);
+    public function users () {
+        return $this->belongsToMany(User::class);
     }
 }
