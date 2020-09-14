@@ -17,9 +17,10 @@ class ReportController extends Controller
 
     public function index()
     {
-        $reports = Report::latest()->get();
+        $reports = Report::latest()->paginate(30);
 
         return ReportResource::collection($reports);
+        
     }
 
     public function store(CreateReport $request)

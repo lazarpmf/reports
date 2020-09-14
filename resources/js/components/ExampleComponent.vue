@@ -1,5 +1,5 @@
 <template>
-<div class="container mt-5">
+<div class="container mt-5 mb-3">
   <div class="header">
     <a href="/"><div class="image-holder"><img src="img/small-logo.png" alt="logo"></div></a>
     <div><h1>Izvještaji</h1></div>
@@ -49,6 +49,8 @@
         <button v-if="report.isAuthor" @click="deleteReport(report.id)" class="button-icon print-remove"><img src="img/delete.svg" alt="delete"></button>
       </div>
     </div>
+    <pagination class="printBtn mt-3" :data="reportObject" @pagination-change-page="getResults"></pagination>
+
   </div>
 </div>
 
@@ -57,6 +59,7 @@
 <script>
 import VueToastr from "vue-toastr";
 import Swal from "sweetalert2";
+
 
 Vue.use(VueToastr, {
   defaultClassNames: ["animated", "zoomInUp"],
@@ -68,6 +71,7 @@ export default {
       search : '',
       reports: [],
       loading : true,
+      reportObject : {},
     };
   },
   computed: {
@@ -83,12 +87,21 @@ export default {
   },
   mounted() {
     this.fetchReports();
+    this.getResults();
   },
   methods: {
+    getResults(page = 1) {
+            axios.get('api/report?page=' + page)
+                .then(response => {
+                    this.reportObject = response.data;
+                });
+        },
     async fetchReports() {
       const { data } = await axios.get("/api/report");
       this.reports = data.data;
+      this.reportObject = data;
       this.loading = false;
+      console.log(this.reports);
     },
     async deleteReport(reportId) {
       const result = await Swal.fire({
