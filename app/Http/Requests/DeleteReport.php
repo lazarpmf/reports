@@ -11,7 +11,7 @@ class DeleteReport extends FormRequest
     {
         // moze da izbrise samo onaj ko je kreirao report
         // return auth()->user()->id === $this->report->user_id;
-        return true;
+        return auth()->user()->id === $this->report->user_id;
     }
 
     public function rules()

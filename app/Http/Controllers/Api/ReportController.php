@@ -31,8 +31,8 @@ class ReportController extends Controller
         ]);
 
         // sending notification
-        $admin = User::find(1);
-        $admin->notify(new NewReportNotification);
+        // $admin = User::find(1);
+        // $admin->notify(new NewReportNotification);
 
         $users = $request->workers;
         $report->users()->attach($users);

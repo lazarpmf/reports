@@ -49,7 +49,7 @@
   track-by="name" 
   :preselect-first="true"
   >
-    <template slot="selection" slot-scope="{ values, search, isOpen }">
+    <template slot="selection" slot-scope="{ values, isOpen }">
         <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">
                 {{ values.length }} radnika odabrano
         </span>
@@ -77,10 +77,10 @@ export default {
     return {
         errors : new Errors(),
         singleValue: '',
-        singleOptions: ['Telemach', 'Komunalno', 'Luštica'],
         value: [],
         options: [],
         users : [],
+        singleOptions : [],
         form : {
             description : '',
             project: [],
@@ -90,8 +90,13 @@ export default {
   },
   mounted() {
       this.fetchUsers();
+      this.fetchProjects();
   },
   methods : {
+    async fetchProjects() {
+          const {data} = await axios.get('/api/project');
+          this.singleOptions = data.data.map(option => option.project);
+      },
       async fetchUsers() {
           const {data} = await axios.get('/api/user');
           this.users = data.data;
@@ -100,13 +105,15 @@ export default {
           try {
             const form = Object.assign({}, this.form);
             form.project = this.singleValue;
+            
             form.workers = this.value.map(index => index.id);
-            const {data} = await axios.post(`/api/report`, form);
             console.log(form.workers)
+            const {data} = await axios.post(`/api/report`, form);
+            console.log(form.description)
             this.$parent.reports.unshift(data.data);
             this.$toastr.defaultPosition = "toast-bottom-right";
             this.$toastr.s("Izvještaj uspješno objavljen!");
-            $('#exampleModal').modal('hide')
+            // $('#exampleModal').modal('hide');
             // document.querySelector('#saveBtn').setAttribute('disabled', false);
           } catch (error) {
                 console.log(error.response.data.errors);

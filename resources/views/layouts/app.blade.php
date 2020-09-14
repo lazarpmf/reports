@@ -34,6 +34,13 @@
                     Izvještaji
                 </a>
             @endif
+            @if(Auth::user())
+                @if(Auth::user()->role === 1)
+                <a style="text-decoration:none; color:black; margin-left:10px;" href="/administration">
+                    Administracija
+                </a>
+                @endif
+            @endif
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -63,7 +70,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a href="#" class="dropdown-item" style="cursor: pointer;">
+                                        Moj profil
+                                    </a>    
+                                <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Odjava') }}

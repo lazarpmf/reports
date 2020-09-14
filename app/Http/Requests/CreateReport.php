@@ -16,8 +16,8 @@ class CreateReport extends FormRequest
     public function rules()
     {
         return [
-            'project' => 'required|string|in:Telemach,Komunalno,Luštica,pending',
-            'description' => 'required|string|max:255',
+            'project' => 'required|string',
+            'description' => 'required|string|max:999',
         ];
     }
 }

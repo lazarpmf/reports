@@ -21,4 +21,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('user', 'Api\UserController');
     Route::apiResource('report', 'Api\ReportController');
+    Route::apiResource('project', 'Api\ProjectController');
+    // Route::post('/upload', 'Api\UserController@upload');
 });
+

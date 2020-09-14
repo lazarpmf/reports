@@ -60,6 +60,12 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <!-- <div class="form-group row">
+                            <label for="img">Izaberite sliku:</label>
+                            <div class="col-md-6">
+                            <input type="file" id="img" name="img" accept="image/*">
+                            </div>
+                        </div> -->
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

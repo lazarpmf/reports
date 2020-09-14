@@ -23,5 +23,9 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/reports', 'ReportController@index');
-Route::get('/reports/{report}', 'ReportController@show');
+Route::get('/reports', 'ReportController@index')->middleware('pages');
+Route::get('/reports/{report}', 'ReportController@show')->middleware('pages');
+
+Route::post('/upload', 'UserController@upload');
+
+Route::get('/administration', 'PageController@admin')->middleware('administration');

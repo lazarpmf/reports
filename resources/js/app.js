@@ -22,6 +22,8 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('create-report', require('./components/CreateReport.vue').default);
 Vue.component('show-report', require('./components/ShowReport.vue').default);
+Vue.component('create-worker', require('./components/CreateWorker.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
