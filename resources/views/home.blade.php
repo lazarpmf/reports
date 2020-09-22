@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('Dobrodošli') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,8 +14,17 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Ulogovani ste') }}
                 </div>
+                <!-- <div>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="image">
+                    <input type="submit" value="Upload">
+                    </form>
+                </div> -->
+
+                
             </div>
         </div>
     </div>

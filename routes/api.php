@@ -17,10 +17,11 @@ use App\Http\Controllers\Api\ReportController;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::apiResource('user', 'Api\UserController');
     Route::apiResource('report', 'Api\ReportController');
+    Route::apiResource('project', 'Api\ProjectController');
+    // Route::post('/upload', 'Api\UserController@upload');
 });
+

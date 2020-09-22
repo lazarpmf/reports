@@ -4,22 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReportsTable extends Migration
+class CreateProjectsTable extends Migration
 {
 
     public function up()
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('project');
-            $table->mediumText('description');
+            $table->string('project')->unique();
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('projects');
     }
 }
