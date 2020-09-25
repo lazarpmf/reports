@@ -35,7 +35,7 @@
     <div style="margin-left:37%;" class="mt-3"><button type="button" class="btn btn-primary printBtn" data-toggle="modal" data-target="#exampleModal">Napravi izvještaj</button></div>
 </div>
 
-    <div v-else v-for="report in filteredList" v-bind:key="report.id" class="table__row">
+    <div v-else v-for="report in reportObject.data" v-bind:key="report.id" class="table__row">
       <div data-title="Datum"><p>{{ report.created }}</p><p>{{ report.author }}</p></div>
       <div data-title="Projekat"><p>{{ report.project }}</p></div>
       <div class="job-description" data-title="Opis radova">
@@ -76,11 +76,11 @@ export default {
   },
   computed: {
     filteredList() {
-      return this.reports.filter(report => {
-        return report.project.toLowerCase().includes(this.search.toLowerCase()) || 
-                report.description.toLowerCase().includes(this.search.toLowerCase()) ||
-                report.created.toLowerCase().includes(this.search.toLowerCase()) || 
-                report.author.toLowerCase().includes(this.search.toLowerCase()) //za authora moram da prikazujem ime autora da bi se znalo da je za to pretraga
+      return this.reportObject.data.filter(report => {
+        return reportObject.data.project.toLowerCase().includes(this.search.toLowerCase()) || 
+                reportObject.data.description.toLowerCase().includes(this.search.toLowerCase()) ||
+                reportObject.data.created.toLowerCase().includes(this.search.toLowerCase()) || 
+                reportObject.data.author.toLowerCase().includes(this.search.toLowerCase()) //za authora moram da prikazujem ime autora da bi se znalo da je za to pretraga
                 
       })
     },
@@ -119,16 +119,20 @@ export default {
       const { data } = await axios.delete(`/api/report/${reportId}`);
       this.$toastr.defaultPosition = "toast-bottom-right";
       this.$toastr.s("Izvještaj uspješno izbrisan!");
-      return (this.reports = this.reports.filter(
+      return (this.reportObject.data = this.reportObject.data.filter(
         (report) => report.id !== reportId
       ));
     },
     editReport(report) {
+      console.log(report.id)
       const createReport = this.$refs.CreateReport;
-      createReport.project = report.singleValue;
-      createReport.description = report.description;
-      createReport.workers = report.value;
-      $('#exampleModal').modal().show();
+      createReport.reportId = report.id;
+      createReport.form.project = report.project;  //ne radi
+      createReport.form.description = report.description;  //radi
+      createReport.form.workers = report.workers;  // ne radi
+
+      jQuery.noConflict(); 
+      $('#exampleModal').modal('show');
     },
     printPage() {
       let allPrintBtn = document.querySelectorAll('.printBtn');
@@ -144,8 +148,10 @@ export default {
       window.print();
     },
     resetForm() {
-      this.reports.project = '';
-      console.log('reseted')
+      this.$refs.CreateReport.reportId = null;
+      this.$refs.CreateReport.form.description = '';
+      this.$refs.CreateReport.singleValue = '';
+      this.$refs.CreateReport.value = [];
     },
   },
 };

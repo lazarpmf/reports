@@ -25,4 +25,8 @@ class User extends Authenticatable
     public function reports () {
         return $this->belongsToMany(Report::class);
     }
+
+    public function statuses () {
+        $this->hasMany(Status::class);
+    }
 }

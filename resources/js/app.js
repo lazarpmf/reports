@@ -23,6 +23,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('create-report', require('./components/CreateReport.vue').default);
 Vue.component('show-report', require('./components/ShowReport.vue').default);
 Vue.component('create-worker', require('./components/CreateWorker.vue').default);
+Vue.component('create-status', require('./components/CreateStatus.vue').default);
+Vue.component('all-statuses', require('./components/AllStatuses.vue').default);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 

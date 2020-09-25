@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateReport;
 use App\Http\Requests\DeleteReport;
 use App\Http\Requests\ShowReport;
+use App\Http\Requests\UpdateReport;
 use App\Http\Resources\ReportResource;
 use App\Notifications\NewReportNotification;
 use App\Report;
@@ -45,9 +46,16 @@ class ReportController extends Controller
         return new ReportResource($report);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateReport $request, Report $report)
     {
-        //
+        $report->update([
+            'project' => $request->project,
+            'description' => $request->description,
+        ]);
+
+        $users = $request->workers;
+        $report->users()->sync($users);
+        return new ReportResource($report);
     }
 
     public function destroy(DeleteReport $request, Report $report)
