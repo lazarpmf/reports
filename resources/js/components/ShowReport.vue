@@ -1,25 +1,25 @@
 <template>
         <div class="container">
-    <table style="width:100%" class="mt-3 mb-2">
-    <thead style="width:100%">
-        <th class="w-100">
-            <td style="width:25%;"><a class="btn btn-primary" href="/reports">Nazad</a></td>
-            <td style="width:35%;"><h4>Izvještaj broj {{report.id}}</h4></td>
-            <td style="width:35%;"><img alt="logo" src="/img/small-logo.png" height="60px" width="60px" /></td>
-        </th>
-    </thead>
+    <table style="width:100%" class="d-flex mt-3 mb-2">
+        <tr class="w-100 d-flex flex-row justify-content-between">
+            <td><a class="btn btn-primary" href="/reports">Nazad</a></td>
+            <td><h4>Izvještaj broj {{report.id}}</h4></td>
+            <td><img alt="logo" src="/img/small-logo.png" height="60px" width="60px" /></td>
+        </tr>
 </table>
         <hr>
         <p>Tekst izvještaja:</p>
         <h4>{{report.description}}</h4>
-        <!-- <p class="mb-3 mt-3">Radili:</p>
-        <div v-for="rep in report.workers" v-bind:key="rep.id">
-            <div>{{rep.name.toString()}}</div>
-        </div> -->
+        
+              
         <hr>
-        <small>Projekat: {{report.project}}</small>
-        <div><small>Objavljeno: {{report.created}}</small></div>
-        <small>Objavio: {{report.author}}</small>
+        <small>Projekat: <b>{{report.project}}</b></small>
+        <div><small>Objavljeno: <b>{{report.created}}</b></small></div>
+        <small>Objavio: <b>{{report.author}}</b></small>
+        <div><small class="mb-3 mt-3">Radili:</small></div>
+        <div v-for="worker in report.workers" v-bind:key="worker.id">
+            <small><b>{{worker.name}}</b></small>
+        </div>  
 
 
     </div>

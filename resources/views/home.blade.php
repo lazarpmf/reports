@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container" id="app">
+    <all-statuses></all-statuses>
+    <!-- <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dobrodošli') }}</div>
@@ -15,18 +16,19 @@
                     @endif
 
                     {{ __('Ulogovani ste') }}
+                    
                 </div>
-                <!-- <div>
+                 <div>
                     <form action="/upload" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="image">
                     <input type="submit" value="Upload">
                     </form>
-                </div> -->
+                </div>
 
                 
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection

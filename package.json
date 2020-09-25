@@ -24,9 +24,12 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^22.0.0",
+        "@ckeditor/ckeditor5-vue": "^1.0.2",
         "laravel-vue-pagination": "^2.3.1",
         "sweetalert2": "^9.17.1",
         "vue-multiselect": "^2.1.6",
+        "vue-tinymce-editor": "^1.6.2",
         "vue-toastr": "^2.1.2",
         "vuejs-paginate": "^2.1.0",
         "vuejs-paginator": "^2.0.2"

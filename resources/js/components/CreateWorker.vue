@@ -1,5 +1,8 @@
 <template>
   <div class="mb-4 mt-4">
+    <div>
+      <a href="/home"><img src="img/logo.png"></a>
+    </div>
     <h1 click="toggleVisibility()">Kreiraj novog radnika:</h1>
     <div id="mainDiv" class="form-group">
       <label for="name">Ime radnika</label>
@@ -43,14 +46,17 @@
     </div>
     <button @click="createWorker()" type="submit" class="btn btn-primary">Dodaj radnika</button>
     <h1 class="mt-3">Svi radnici:</h1>
-    <div v-if="workersWithoutAdmin.length == 0">
+    <div v-if="!workersWithoutAdmin.length && !loading">
         <p>Nema radnika.</p>
+    </div>
+    <div v-else-if="!workersWithoutAdmin.length && loading">
+        <h1 style="margin-left:23%" class="mt-5">Učitavanje...</h1>
     </div>
     <div v-for="worker in workersWithoutAdmin" v-bind:key="worker.id">
       <table class="card">
         <tr class="d-flex">
           <td class="w-50 justify-content-start">
-                  <b class="ml-5">{{worker.name}}</b>
+                  <b class="ml-5 mt-2">{{worker.name}}</b>
               </td>
           <td class="w-50 justify-content-end d-flex">
             <button @click="deleteWorker(worker.id)" class="btn btn-danger ml-auto">Ukloni radnika</button>
@@ -72,7 +78,13 @@
 
   </div>
 
-    <div v-for="project in projects" v-bind:key="project.id">
+    <div v-if="!projects.length && !loadingProjects">
+      <p>Nema projekata.</p>
+    </div>
+    <div v-else-if="!projects.length && loadingProjects">
+      <h1 style="margin-left:23%" class="mt-5">Učitavanje...</h1>
+    </div>  
+    <div v-for="(project, i) in projects" v-bind:key=" 'A' + i">
         <table class="card">
         <tr class="d-flex">
           <td class="w-50 justify-content-start">
@@ -98,6 +110,7 @@ export default {
     return {
     errors : new Errors(),
     loading : true,
+    loadingProjects : true,
       workers: [],
       form: {
         name: "",
@@ -187,7 +200,6 @@ return this.projects = this.projects.filter(project => project.id != projectId);
         try{
       const { data } = await axios.post("/api/user", this.form);
       this.workers.push(data.data);
-      this.loading = false;
       this.$toastr.defaultPosition = "toast-bottom-right";
       this.$toastr.s("Novi radnik kreiran!");
       this.form.name = "";
@@ -200,6 +212,7 @@ return this.projects = this.projects.filter(project => project.id != projectId);
     },
     async fetchWorkers() {
       const { data } = await axios.get("/api/user");
+      this.loading = false;
       this.workers = data.data;
     },
   },

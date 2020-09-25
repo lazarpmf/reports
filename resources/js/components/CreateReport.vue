@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Kreiraj izvještaj</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{reportId ? 'Izmijeni izvještaj' : 'Kreiraj izvještaj'}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -75,6 +75,7 @@ export default {
     components: {Multiselect},
     data() {
     return {
+        reportId : null,
         errors : new Errors(),
         singleValue: '',
         value: [],
@@ -103,6 +104,22 @@ export default {
       },
       async postReport() {
           try {
+             if (this.reportId) {
+               const form = Object.assign({}, this.form);
+               form._method = 'PUT';
+               const {data} = await axios.post(`/api/report/${this.reportId}`, form);
+                const reportIndex = this.$parent.reportObject.data.findIndex(report => report.id === this.reportId);
+                        this.$set(this.$parent.reportObject.data, reportIndex, data.data);
+                        this.reportId = null;
+                        jQuery.noConflict();
+                        $('#exampleModal').modal('hide');
+                        this.$toastr.defaultPosition = "toast-bottom-right";
+                        this.$toastr.i
+                        (
+                            "Izvještaj uspješno izmijenjen!"
+                        );
+                    }
+                    else{
             const form = Object.assign({}, this.form);
             form.project = this.singleValue;
             
@@ -110,11 +127,12 @@ export default {
             console.log(form.workers)
             const {data} = await axios.post(`/api/report`, form);
             console.log(form.description)
-            this.$parent.reports.unshift(data.data);
+            this.$parent.reportObject.data.unshift(data.data);
             this.$toastr.defaultPosition = "toast-bottom-right";
             this.$toastr.s("Izvještaj uspješno objavljen!");
-            // $('#exampleModal').modal('hide');
-            // document.querySelector('#saveBtn').setAttribute('disabled', false);
+            jQuery.noConflict();
+            $('#exampleModal').modal('hide');
+                    }
           } catch (error) {
                 console.log(error.response.data.errors);
                 this.errors.record(error.response.data.errors);
