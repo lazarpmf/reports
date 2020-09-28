@@ -41,7 +41,6 @@ export default {
         async fetchReport () {
             const {data} = await axios.get(`/api/report/${this.reportId}`);
             this.report = data.data;
-            console.log(this.report)
         }
     },
 };

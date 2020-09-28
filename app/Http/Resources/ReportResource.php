@@ -13,7 +13,8 @@ class ReportResource extends JsonResource
     public function toArray($request)
     {
         $user = User::find($this->user_id); 
-        $report = Report::find($this->id);
+        // $report = Report::find($this->id);
+
         $assignedWorkers = User::find($request->workers);
         $isAuthor = auth()->user()->id === $user->id;
         // $workers = $report->users;

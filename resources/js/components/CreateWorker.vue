@@ -44,14 +44,28 @@
       <span class="text-danger" v-if="errors.get('password')">Obavezno polje. Lozinka mora sadržati minimum 8 karaktera.
       </span>
     </div>
-    <button @click="createWorker()" type="submit" class="btn btn-primary">Dodaj radnika</button>
+    <button id="workerButton" @click="createWorker()" type="submit" class="btn btn-primary">Dodaj radnika</button>
     <h1 class="mt-3">Svi radnici:</h1>
     <div v-if="!workersWithoutAdmin.length && !loading">
-        <p>Nema radnika.</p>
+        <div class="d-flex justify-content-center mt-5">
+            <h3><strong>Nema radnika.</strong></h3>
+        </div>
     </div>
-    <div v-else-if="!workersWithoutAdmin.length && loading">
-        <h1 style="margin-left:23%" class="mt-5">Učitavanje...</h1>
+
+<div v-else-if="!workersWithoutAdmin.length && loading">
+      <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+
+        </div>
+      
+
+      </div>
+      <div class="d-flex justify-content-center mt-2">
+        <h3><strong>Učitavanje...</strong></h3>
+      </div>
+    
     </div>
+
     <div v-for="worker in workersWithoutAdmin" v-bind:key="worker.id">
       <table class="card">
         <tr class="d-flex">
@@ -71,7 +85,7 @@
     <input @input="errors.clear('project')" :class="{'is-invalid' : errors.get('project')}" v-model="formTwo.project" type="text" class="form-control" id="project" placeholder="Unesite naziv projekta">
     <small class="text-danger" v-if="errors.get('project')">Obavezno polje. Naziv projekta mora biti jedinstven. </small>
   </div>
-  <button @click="createProject()" class="btn btn-primary">Dodaj projekat</button>
+  <button id="projectButton" @click="createProject()" class="btn btn-primary">Dodaj projekat</button>
 
   <h1 class="mt-3">Svi projekti</h1>
   <div>
@@ -79,11 +93,25 @@
   </div>
 
     <div v-if="!projects.length && !loadingProjects">
-      <p>Nema projekata.</p>
+      <div class="d-flex justify-content-center mt-5">
+            <h3><strong>Nema projekata.</strong></h3>
+        </div>
     </div>
+
     <div v-else-if="!projects.length && loadingProjects">
-      <h1 style="margin-left:23%" class="mt-5">Učitavanje...</h1>
-    </div>  
+      <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+
+        </div>
+      
+
+      </div>
+      <div class="d-flex justify-content-center mt-2">
+        <h3><strong>Učitavanje...</strong></h3>
+      </div>
+    
+    </div>
+
     <div v-for="(project, i) in projects" v-bind:key=" 'A' + i">
         <table class="card">
         <tr class="d-flex">
@@ -167,14 +195,17 @@ export default {
 return this.projects = this.projects.filter(project => project.id != projectId);    },
     async createProject () {
         try{
+        document.querySelector('#projectButton').disabled = 'true';
         const {data} = await axios.post('/api/project', this.formTwo);
         this.projects.unshift(data.data);
         this.$toastr.defaultPosition = "toast-bottom-right";
         this.$toastr.s("Novi projekat kreiran!");
         this.formTwo.project = '';
+        document.querySelector('#projectButton').removeAttribute('disabled');
         }catch(error){
             console.log(error.response.data.errors);
             this.errors.record(error.response.data.errors);
+            document.querySelector('#projectButton').removeAttribute('disabled');
         }
     },
     async deleteWorker(workerId) {
@@ -198,6 +229,7 @@ return this.projects = this.projects.filter(project => project.id != projectId);
     },
     async createWorker() {
         try{
+      document.querySelector('#workerButton').disabled = 'true';
       const { data } = await axios.post("/api/user", this.form);
       this.workers.push(data.data);
       this.$toastr.defaultPosition = "toast-bottom-right";
@@ -205,9 +237,11 @@ return this.projects = this.projects.filter(project => project.id != projectId);
       this.form.name = "";
       this.form.email = "";
       this.form.password = "";
+      document.querySelector('#workerButton').removeAttribute('disabled');
         }catch(error){
             console.log(error.response.data.errors);
             this.errors.record(error.response.data.errors);
+            document.querySelector('#workerButton').removeAttribute('disabled');
         }
     },
     async fetchWorkers() {

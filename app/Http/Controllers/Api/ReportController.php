@@ -61,6 +61,7 @@ class ReportController extends Controller
     public function destroy(DeleteReport $request, Report $report)
     {
         $report->delete();
+        
         return new ReportResource($report);
     }
 }

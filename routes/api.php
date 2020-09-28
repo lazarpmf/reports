@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('report', 'Api\ReportController');
     Route::apiResource('project', 'Api\ProjectController');
     Route::apiResource('status', 'Api\StatusController');
+    Route::apiResource('status/{status}/comment', 'Api\CommentController');
     // Route::post('/upload', 'Api\UserController@upload');
 });
 

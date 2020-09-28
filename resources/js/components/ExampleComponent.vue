@@ -28,11 +28,27 @@
     </div>
 
 <div v-if="loading && !reports.length">
-    <h1 style="margin-left:23%" class="mt-5">Učitavanje...</h1>
+    <div class="d-flex justify-content-center mt-5">
+      <div class="spinner-border" role="status">
+
+      </div>
+      
+
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+        <h3><strong>Učitavanje...</strong></h3>
+    </div>
+    
 </div>
 <div v-else-if="!loading && !reports.length">
-    <h1 class="text-center mt-5">Nema izvještaja!</h1>
-    <div style="margin-left:37%;" class="mt-3"><button type="button" class="btn btn-primary printBtn" data-toggle="modal" data-target="#exampleModal">Napravi izvještaj</button></div>
+    <div class="d-flex justify-content-center mt-5">
+            <h3><strong>Nema izvještaja.</strong></h3>
+        </div>
+    <div style="margin-left:37%;" class="mt-3">
+      <button type="button" class="btn btn-primary printBtn" data-toggle="modal" data-target="#exampleModal">
+        Napravi izvještaj
+      </button>
+    </div>
 </div>
 
     <div v-else v-for="report in reportObject.data" v-bind:key="report.id" class="table__row">
@@ -101,7 +117,6 @@ export default {
       this.reports = data.data;
       this.reportObject = data;
       this.loading = false;
-      console.log(this.reports);
     },
     async deleteReport(reportId) {
       const result = await Swal.fire({
@@ -124,7 +139,6 @@ export default {
       ));
     },
     editReport(report) {
-      console.log(report.id)
       const createReport = this.$refs.CreateReport;
       createReport.reportId = report.id;
       createReport.form.project = report.project;  //ne radi
@@ -136,7 +150,6 @@ export default {
     },
     printPage() {
       let allPrintBtn = document.querySelectorAll('.printBtn');
-      console.log(allPrintBtn.length)
       for(let i=0; i < allPrintBtn.length; i++){
           allPrintBtn[i].style.display='none';
       }

@@ -15,7 +15,7 @@ class CreateStatus extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|string|max:2999',
+            'description' => 'required|string|max:19999',
         ];
     }
 }

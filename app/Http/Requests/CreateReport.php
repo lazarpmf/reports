@@ -17,7 +17,7 @@ class CreateReport extends FormRequest
     {
         return [
             'project' => 'required|string',
-            'description' => 'required|string|max:999',
+            'description' => 'required|string|max:4999',
         ];
     }
 }

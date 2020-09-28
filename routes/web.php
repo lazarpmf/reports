@@ -62,4 +62,4 @@ Route::post('/upload', 'UserController@upload');
 
 Route::get('/administration', 'PageController@admin')->middleware('administration');
 
-Route::get('/statistics', 'StatisticController@index');
+Route::get('/statistics', 'StatisticController@index')->middleware('administration');

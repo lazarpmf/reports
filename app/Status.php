@@ -9,6 +9,10 @@ class Status extends Model
     protected $guarded = ['id'];
 
     public function user () {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments () {
+        return $this->hasMany(Comment::class);
     }
 }

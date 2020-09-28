@@ -13,7 +13,7 @@ class StatusController extends Controller
 {
     public function index()
     {
-        $statuses = Status::latest()->paginate(2);
+        $statuses = Status::latest()->paginate(4);
 
         return StatusResource::collection($statuses);
     }

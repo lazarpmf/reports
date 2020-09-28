@@ -1,14 +1,37 @@
 <template>
     <div class="container mt-3">
         <create-status ref="CreateStatus"></create-status>
-        <div class="card mt-3" v-for="status in statusObject.data" v-bind:key="status.id">
-            <div class="card-header d-flex">
-                <div class="p-2">{{status.authorName}}</div>
-                <div class="ml-auto p-2">{{status.created}}</div>
-            </div>
-  <div v-html="status.description" class="card-body"></div>
+    <div v-if="!statuses.length && !loading">
+        <div class="d-flex justify-content-center mt-5">
+            <h3><strong>Nema statusa.</strong></h3>
+        </div>
+    </div>
 
-        <div class="ml-auto"><button @click="deleteStatus(status.id)" class="btn btn-link">Izbriši</button></div>
+<div v-else-if="!statuses.length && loading">
+      <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+
+        </div>
+      
+
+      </div>
+      <div class="d-flex justify-content-center mt-2">
+        <h3><strong>Učitavanje...</strong></h3>
+      </div>
+    
+    </div>
+
+        <div v-else class="card mt-3" v-for="status in statusObject.data" v-bind:key="status.id">
+            <div class="card-header d-flex">
+                <div class="p-2"><b>{{status.authorName}}</b></div>
+                <div class="ml-auto p-2">{{status.created}}</div>
+                
+                <div v-if="status.commentsNumber">{{status.commentsNumber}}</div>
+            </div>
+            <div v-html="status.description" class="card-body"></div>
+
+            <div class="ml-auto"><button @click="deleteStatus(status.id)" class="btn btn-link">Izbriši</button></div>
+            
 
         </div>
             <pagination class="mt-3" :data="statusObject" @pagination-change-page="getResults"></pagination>
@@ -26,32 +49,44 @@ export default {
     
   data () {
       return {
+          loading : true,
           statuses : [],
           statusObject : {},
+          statuses : [],
+          statusId : null,
       }
   },
     mounted() {
         this.fetchStatuses();
+        // this.fetchComments();
     },
     methods : {
+        // statusIdFunction (id) {
+        //     this.statusId = id;
+        //     console.log(id)
+        // },
+        // async fetchComments() {
+        //     const {data} = await axios.get(`/api/status/${statusId}/comment`);
+        //     this.statuses = data.data;
+        //     this.statusId = null;
+        // },
         async fetchStatuses() {
             const {data} = await axios.get('/api/status');
             this.statuses = data.data;
             this.statusObject = data;
+            this.loading = false;
         },
         async deleteStatus(statusId) {
-            
-
             const result = await Swal.fire({
-        title: "Da li ste sigurni?",
-        text: "Ovaj sttaus će biti izbrisan!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#9b1c1c",
-        cancelButtonColor: "#d2d6dc",
-        confirmButtonText: "Obriši",
-        cancelButtonText: "Odustani",
-        reverseButtons: true,
+            title: "Da li ste sigurni?",
+            text: "Ovaj status će biti izbrisan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#9b1c1c",
+            cancelButtonColor: "#d2d6dc",
+            confirmButtonText: "Obriši",
+            cancelButtonText: "Odustani",
+            reverseButtons: true,
       });
       if (!result.value) return;
       const {data} = await axios.delete(`/api/status/${statusId}`);
